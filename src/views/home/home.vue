@@ -5,6 +5,7 @@
       <img src="@/assets/img/home/banner.webp" alt="">
     </div>
     <home-search/>
+    <home-categories/>
   </div>
 </template>
 
@@ -12,6 +13,7 @@
 import { useHomeStore } from '@/stores';
 import HomeNavBar from './cpns/home-nav-bar.vue'
 import HomeSearch from './cpns/home-search.vue'
+import HomeCategories from './cpns/home.categories.vue'
 
 // 获取热门建议数据
 const homeStore = useHomeStore()
