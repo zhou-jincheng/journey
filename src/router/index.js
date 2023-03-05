@@ -28,6 +28,14 @@ const routes = [
     meta: {
       hideTabBar: true
     }
+  },
+  {
+    path: '/search',
+    component: () => import('@/views/search/search.vue'),
+    // 隐藏底部tabbar栏
+    meta: {
+      hideTabBar: true
+    }
   }
 ]
 

@@ -1,7 +1,7 @@
 <template>
   <div class="home-search">
     <!-- 城市 -->
-    <div class="location">
+    <div class="location bottom-gray-line">
       <span class="city" @click="cityClick">{{ currentCity.cityName }}</span>
       <span class="position" @click="positionClick">
         <span class="text">我的位置</span>
@@ -9,7 +9,7 @@
       </span>
     </div>
     <!-- 入住时间 -->
-    <div class="section date-range bottom-gray-line " @click="showCalendar = true">
+    <div class="section date-range bottom-gray-line" @click="showCalendar = true">
       <div class="start">
         <div class="date">
           <span class="tip">入住</span>
@@ -24,6 +24,38 @@
         </div>
       </div>
     </div>
+    <van-calendar
+      v-model:show="showCalendar"
+      :round="false"
+      :show-confirm="false"
+      type="range"
+      color="#ff9854"
+      @confirm="onConfirm"
+    />
+    <!-- 价格/人数选择 -->
+    <div class="section price-counter bottom-gray-line">
+      <div class="start">价格不限</div>
+      <div class="end">人数不限</div>
+    </div>
+    <!-- 关键字 -->
+    <div class="section keyword bottom-gray-line">关键字/位置/民宿名</div>
+
+    <!-- 热门建议 -->
+    <div class="section hot-suggests">
+      <template v-for="(item, index) in hotSuggests" :key="index">
+        <div
+          class="item"
+          :style="{ color: item.tagText.color, background: item.tagText.background.color }"
+        >
+          {{ item.tagText.text }}
+        </div>
+      </template>
+    </div>
+
+    <!-- 搜索按钮 -->
+    <div class="section search-btn">
+      <div class="btn" @click="searchBtnClick">开始搜索</div>
+    </div>
   </div>
 </template>
 
@@ -31,8 +63,8 @@
 import { ref } from 'vue'
 import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router';
-import { useCityStore } from '@/stores';
-import { formatMouthDay } from '@/utils'
+import { useCityStore, useHomeStore } from '@/stores';
+import { formatMouthDay, getDiffDays } from '@/utils'
 
 const router = useRouter()
 // 去城市页面
@@ -61,17 +93,37 @@ const startDate = new Date()
 const endDate = new Date().setDate(startDate.getDate() + 1)
 const startDateStr = ref(formatMouthDay(startDate))
 const endDateStr = ref(formatMouthDay(endDate))
+const stayCount = ref(getDiffDays(startDate, endDate))
+
+const showCalendar = ref(false)
+function onConfirm(date) {
+  startDateStr.value = formatMouthDay(date[0])
+  endDateStr.value = formatMouthDay(date[1])
+  stayCount.value = getDiffDays(date[0], date[1])
+  showCalendar.value = false
+}
+
+// 热门建议
+const homeStore = useHomeStore()
+const { hotSuggests } = storeToRefs(homeStore)
+
+// 搜索按钮
+function searchBtnClick() {
+  router.push('/search')
+}
+
 </script>
 
 <style lang="less" scoped>
-
+.home-search {
+  --van-calendar-popup-height: 100%;
+}
 .location {
   height: 44px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 18px;
-  border: 1px solid #eee;
   .city {
     font-size: 15px;
   }
@@ -132,6 +184,40 @@ const endDateStr = ref(formatMouthDay(endDate))
     text-align: center;
     font-size: 12px;
     color: #666;
+  }
+}
+
+.price-counter {
+  .start {
+    border-right: 1px solid  var(--line-color);
+  }
+}
+
+.hot-suggests {
+  margin: 10px 0;
+  height: auto;
+
+  .item {
+    padding: 4px 8px;
+    margin: 4px;
+    border-radius: 14px;
+    font-size: 12px;
+    line-height: 1;
+  }
+}
+
+.search-btn {
+  .btn {
+    width: 342px;
+    height: 38px;
+    max-height: 50px;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 38px;
+    text-align: center;
+    border-radius: 20px;
+    color: #fff;
+    background-image: var(--theme-linear-gradient);
   }
 }
 </style>
