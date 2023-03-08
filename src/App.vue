@@ -1,5 +1,5 @@
 <template>
-  <div class="app" :style="{ height: route.meta.hideTabBar ? '100vh' : 'calc(100vh - 50px)' }">
+  <div class="app">
     <router-view></router-view>
     <tab-bar v-if="!route.meta.hideTabBar"/>
   </div>
@@ -14,7 +14,4 @@ const route = useRoute()
 </script>
 
 <style scoped>
-.app {
-  overflow-y: auto;
-}
 </style>

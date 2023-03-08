@@ -22,9 +22,13 @@ const homeStore = useHomeStore()
 homeStore.fetchHotSuggestData()
 homeStore.fetchCategoriesData()
 homeStore.fetchHouseListData()
+
 </script>
 
 <style lang="less" scoped>
+.home {
+  padding-bottom: 56px;
+}
 .banner {
   img {
     width: 100%;

@@ -19,6 +19,15 @@ import HomeItemV9 from '@/components/home-item-v9/home-item-v9.vue'
 const homeStore = useHomeStore()
 const { houseList } = storeToRefs(homeStore)
 
+window.addEventListener('scroll', () => {
+  const clientHeight = document.documentElement.clientHeight
+  const scrollTop = document.documentElement.scrollTop
+  const scrollHeight = document.documentElement.scrollHeight
+  if (clientHeight + scrollTop >= scrollHeight) {
+    homeStore.fetchHouseListData()
+  }
+})
+
 </script>
 
 <style lang="less" scoped>
