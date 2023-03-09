@@ -15,11 +15,20 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import tabbarList from '@/assets/data/tab-bar'
 import { getAssetImageUrl } from '@/utils/load_assets'
 
 const currentIndex = ref(0)
+// 监听路由变化
+const route = useRoute()
+watch(route, (newRoute) => {
+  const index = tabbarList.findIndex(item => item.path === newRoute.path)
+  if (index !== -1) {
+    currentIndex.value = index
+  }
+})
 
 </script>
 
