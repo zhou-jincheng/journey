@@ -5,20 +5,21 @@
       <img src="@/assets/img/home/banner.webp" alt="">
     </div>
     <home-search/>
-    <div v-if="isShow">我是搜索框</div>
     <home-categories/>
     <home-content/>
+    <search-bar v-show="showSearchBar">我是搜索框</search-bar>
   </div>
 </template>
 
 <script setup>
 import { useHomeStore } from '@/stores';
+import { useScroll } from '@/hooks';
+import { watch, computed } from 'vue';
 import HomeNavBar from './cpns/home-nav-bar.vue'
 import HomeSearch from './cpns/home-search.vue'
 import HomeCategories from './cpns/home.categories.vue'
 import HomeContent from './cpns/home-content.vue'
-import { useScroll } from '@/hooks';
-import { watch, computed } from 'vue';
+import SearchBar from '@/components/search-bar/search-bar.vue'
 
 // 获取热门建议数据
 const homeStore = useHomeStore()
@@ -35,9 +36,7 @@ watch(isReachBottom, async (newValue) => {
   }
 })
 
-const isShow = computed(() => {
-  return scrollTop.value >= 100
-})
+const showSearchBar = computed(() => scrollTop.value > 100)
 
 </script>
 
