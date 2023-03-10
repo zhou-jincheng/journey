@@ -60,10 +60,10 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router';
-import { useCityStore, useHomeStore } from '@/stores';
+import { useCityStore, useHomeStore, useMainStore } from '@/stores';
 import { formatMouthDay, getDiffDays } from '@/utils'
 
 const router = useRouter()
@@ -89,16 +89,16 @@ const cityStore = useCityStore()
 const { currentCity } = storeToRefs(cityStore)
 
 // 处理入住时间
-const startDate = new Date()
-const endDate = new Date().setDate(startDate.getDate() + 1)
-const startDateStr = ref(formatMouthDay(startDate))
-const endDateStr = ref(formatMouthDay(endDate))
-const stayCount = ref(getDiffDays(startDate, endDate))
+const mainStore = useMainStore()
+const { startDate, endDate } = storeToRefs(mainStore)
+const startDateStr = computed(() => formatMouthDay(startDate.value))
+const endDateStr = computed(() => formatMouthDay(endDate.value))
+const stayCount = ref(getDiffDays(startDate.value, endDate.value))
 
 const showCalendar = ref(false)
 function onConfirm(date) {
-  startDateStr.value = formatMouthDay(date[0])
-  endDateStr.value = formatMouthDay(date[1])
+  startDate.value = date[0]
+  endDate.value = date[1]
   stayCount.value = getDiffDays(date[0], date[1])
   showCalendar.value = false
 }
