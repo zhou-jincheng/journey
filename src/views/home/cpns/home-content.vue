@@ -12,7 +12,7 @@
 
 <script setup>
 import { storeToRefs } from 'pinia';
-import { useHomeStore } from '@/stores';
+import useHomeStore from '@/stores/modules/home';
 import HomeItemV3 from '@/components/home-item-v3/home-item-v3.vue'
 import HomeItemV9 from '@/components/home-item-v9/home-item-v9.vue'
 

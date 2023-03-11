@@ -22,7 +22,7 @@
 <script setup>
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia';
-import { useMainStore } from '@/stores';
+import useMainStore from '@/stores/modules/main';
 import { formatMouthDay } from '@/utils'
 
 const mainStore = useMainStore()

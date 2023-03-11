@@ -11,7 +11,7 @@
 
 <script setup>
 import { storeToRefs } from 'pinia';
-import { useHomeStore } from '@/stores';
+import useHomeStore from '@/stores/modules/home';
 
 const homeStore = useHomeStore()
 const { categories } = storeToRefs(homeStore)

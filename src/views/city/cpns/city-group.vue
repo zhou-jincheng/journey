@@ -22,7 +22,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useRouter } from 'vue-router';
-import { useCityStore } from '@/stores'
+import useCityStore from '@/stores/modules/city'
 
 const props = defineProps({
   groupData: {

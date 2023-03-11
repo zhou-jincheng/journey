@@ -1,11 +1,27 @@
 import axios from "axios";
 import { BASE_URL, TIMEOUT } from "./config";
+import useMainStore from "@/stores/modules/main";
+const mainStore = useMainStore()
 
 class JcRquest {
   constructor({ baseURL, timeout }) {
     this.instance = axios.create({
       baseURL,
       timeout
+    })
+
+    // 添加请求相应拦截器
+    this.instance.interceptors.request.use(config => {
+      mainStore.loading = true
+      return config
+    }, err => err)
+
+    this.instance.interceptors.response.use(res => {
+      mainStore.loading = false
+      return res
+    }, err => {
+      mainStore.loading = false
+      return err
     })
   }
 

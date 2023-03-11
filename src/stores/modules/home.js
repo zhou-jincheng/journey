@@ -1,5 +1,5 @@
-import { getCategories, getHotSuggests, getHouseList } from "@/services";
 import { defineStore } from "pinia";
+import { getCategories, getHotSuggests, getHouseList } from "@/services";
 
 const useHomeStore = defineStore('home', {
   state: () => ({

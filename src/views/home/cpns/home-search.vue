@@ -63,7 +63,10 @@
 import { ref, computed } from 'vue'
 import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router';
-import { useCityStore, useHomeStore, useMainStore } from '@/stores';
+import useCityStore from '@/stores/modules/city'
+import useHomeStore from '@/stores/modules/home'
+import useMainStore from '@/stores/modules/main'
+
 import { formatMouthDay, getDiffDays } from '@/utils'
 
 const router = useRouter()

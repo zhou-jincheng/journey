@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-import { useHomeStore } from '@/stores';
+import useHomeStore from '@/stores/modules/home';
 import { useScroll } from '@/hooks';
 import { watch, computed } from 'vue';
 import HomeNavBar from './cpns/home-nav-bar.vue'
@@ -36,6 +36,7 @@ watch(isReachBottom, async (newValue) => {
   }
 })
 
+// 控制search-bar的显示
 const showSearchBar = computed(() => scrollTop.value > 100)
 
 </script>

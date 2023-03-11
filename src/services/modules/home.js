@@ -1,19 +1,19 @@
-import JcRequest from '../request/request'
+import jcRequest from '../request/request'
 
 export function getHotSuggests() {
-  return JcRequest.get({
+  return jcRequest.get({
     url: '/home/hotSuggests'
   })
 }
 
 export function getCategories() {
-  return JcRequest.get({
+  return jcRequest.get({
     url: '/home/categories'
   })
 }
 
 export function getHouseList(page) {
-  return JcRequest.get({
+  return jcRequest.get({
     url: '/home/houselist',
     params: {
       page
