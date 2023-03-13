@@ -36,7 +36,15 @@ const routes = [
     meta: {
       hideTabBar: true
     }
-  }
+  },
+  {
+    path: '/detail/:id',
+    component: () => import('@/views/detail/detail.vue'),
+    // 隐藏底部tabbar栏
+    meta: {
+      hideTabBar: true
+    }
+  },
 ]
 
 const router = createRouter({
