@@ -6,16 +6,21 @@
       left-arrow
       @click-left="$router.back()"
     />
+    <home-swipe v-if="topModule.housePicture" :swipe-data="topModule.housePicture.housePics" />
   </div>
 </template>
 
 <script setup>
 import { useRoute } from 'vue-router';
+import { ref } from 'vue';
 import { getDetailInfos } from '@/services/modules/detail';
+import HomeSwipe from './cpns/home-swipe.vue'
 
 const route = useRoute()
+const topModule = ref({})
 getDetailInfos(route.params.id).then(res => {
-  console.log(res)
+  const mainPart = res.data.mainPart
+  topModule.value = mainPart.topModule
 })
 </script>
 
