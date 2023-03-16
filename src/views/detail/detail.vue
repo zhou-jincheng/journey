@@ -6,10 +6,11 @@
       left-arrow
       @click-left="$router.back()"
     />
-    <div v-if="topModule" class="main">
-      <detail-swipe :swipe-data="topModule.housePicture.housePics" />
-      <detail-infos :top-infos="topModule"/>
-    </div>
+    <template v-if="mainPart">
+      <detail-swipe :swipe-data="mainPart.topModule.housePicture.housePics" />
+      <detail-infos :top-infos="mainPart.topModule"/>
+      <detail-facility :house-facility="mainPart.dynamicModule.facilityModule.houseFacility"/>
+    </template>
   </div>
 </template>
 
@@ -19,13 +20,12 @@ import { ref } from 'vue';
 import { getDetailInfos } from '@/services/modules/detail';
 import DetailSwipe from './cpns/detail_01-swipe.vue'
 import DetailInfos from './cpns/detail_02-infos.vue'
-
+import DetailFacility from './cpns/detail_03-facility.vue'
 
 const route = useRoute()
-const topModule = ref()
+const mainPart = ref()
 getDetailInfos(route.params.id).then(res => {
-  const mainPart = res.data.mainPart
-  topModule.value = mainPart.topModule
+  mainPart.value = res.data.mainPart
 })
 </script>
 
