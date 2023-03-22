@@ -4,7 +4,7 @@
     <div class="desc">{{ introduction.introduction }}</div>
     <div class="footer">
       <img src="@/assets/img/detail/icon_ensure.png" alt="">
-      <sapn class="text">宏源旅途，永无止尽!</sapn>
+      <span class="text">宏源旅途，永无止尽!</span>
     </div>
   </div>
 </template>
