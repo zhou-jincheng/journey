@@ -28,7 +28,7 @@
 
 <script setup>
 import { useRoute } from 'vue-router';
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { getDetailInfos } from '@/services/modules/detail';
 import DetailSwipe from './cpns/detail_01-swipe.vue'
 import DetailInfos from './cpns/detail_02-infos.vue'
@@ -52,25 +52,40 @@ const showTabbar = computed(() => scrollTop.value >= 150)
 // 获取tabbar内容
 const sectionEls = ref({})
 const names = computed(() => Object.keys(sectionEls.value))
-const currentIndex = computed(() => {
-  let index = 0
-  for (const indey in names.value) {
-    const el = sectionEls.value[names.value[indey]]
-    const elOffsetTop = el?.$el.offsetTop ?? 0
-    if (scrollTop.value > (elOffsetTop + 100) && index < names.value.length) {
-      index = indey * 1 + 1
-    }
-  }
-  return index
-})
+
 function getSectionRef(value) {
   const name = value?.$el.getAttribute('name')
   sectionEls.value[name] = value
 }
+
+// 处理当前tabbar栏高亮项
+let isClick = false
+let clickOffsetTop = 0 // 点击tabbar的offsetTop
+const currentIndex = ref(0)
+watch(scrollTop, (scrollTop) => {
+  if (scrollTop === clickOffsetTop) {
+    isClick = false
+  }
+  if (isClick) return
+  let index = names.value.length - 1
+  const sectionOffsetTops = names.value.map(name => sectionEls.value[name].$el.offsetTop)
+  for (const indey in sectionOffsetTops) {
+    if (scrollTop < sectionOffsetTops[indey] - 50) {
+      index = indey - 1
+      break
+    }
+  }
+  if (index > -1 && currentIndex.value !== index) currentIndex.value = index
+})
+
 // 处理tabbar点击
 function tabbarItemClick(name) {
+  const top = sectionEls.value[name].$el.offsetTop - 50
+  isClick = true
+  clickOffsetTop = top
   window.scrollTo({
-    top: sectionEls.value[name].$el.offsetTop - 50
+    top,
+    behavior: 'smooth'
   })
 }
 
