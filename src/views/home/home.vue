@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home" ref="homeRef">
     <home-nav-bar/>
     <div class="banner">
       <img src="@/assets/img/home/banner.webp" alt="">
@@ -10,11 +10,13 @@
     <search-bar v-show="showSearchBar">我是搜索框</search-bar>
   </div>
 </template>
-
+<script>
+export default { name: 'home' }
+</script>
 <script setup>
 import useHomeStore from '@/stores/modules/home';
 import { useScroll } from '@/hooks';
-import { watch, computed } from 'vue';
+import { watch, computed, ref, onActivated } from 'vue';
 import HomeNavBar from './cpns/home-nav-bar.vue'
 import HomeSearch from './cpns/home-search.vue'
 import HomeCategories from './cpns/home.categories.vue'
@@ -28,7 +30,8 @@ homeStore.fetchCategoriesData()
 homeStore.fetchHouseListData()
 
 // 监听滚动到底部
-const { isReachBottom, scrollTop } = useScroll()
+const homeRef = ref()
+const { isReachBottom, scrollTop } = useScroll(homeRef)
 watch(isReachBottom, async (newValue) => {
   if (newValue) {
     await homeStore.fetchHouseListData()
@@ -39,11 +42,20 @@ watch(isReachBottom, async (newValue) => {
 // 控制search-bar的显示
 const showSearchBar = computed(() => scrollTop.value > 100)
 
+// 记录切换页面时的滚动位置
+onActivated(() => {
+  homeRef.value.scrollTo({
+    top: scrollTop.value
+  })
+})
+
 </script>
 
 <style lang="less" scoped>
 .home {
   padding-bottom: 56px;
+  height: 100vh;
+  overflow-y: auto;
 }
 .banner {
   img {
